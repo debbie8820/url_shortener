@@ -11,15 +11,13 @@ const checkOriginalUrl = require('./middleware/checkOriginalUrl')
 const PORT = 3000
 const app = express()
 
-app.engine('hbs', exphbs({
-  defaultLayout: 'main',
-  extname: '.hbs'
-}))
+app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 
 app.set('view engine', 'hbs')
 
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
+
 
 app.get('/', (req, res) => {
   res.render('index')
@@ -44,7 +42,7 @@ app.get('/URLs/:id', (req, res) => {
   return Urls.findOne({ shortenedUrlId: id })
     .lean()
     .then((url) => {
-      if (isEmpty(url)) {     //輸入錯誤短網址會會回傳的訊息
+      if (isEmpty(url)) { //輸入錯誤短網址會會回傳的訊息
         return res.send('This website is invalid, please check again')
       }
       res.redirect(url.originalUrl)
@@ -53,7 +51,6 @@ app.get('/URLs/:id', (req, res) => {
       console.log(error)
     })
 })
-
 
 app.listen(PORT, () => {
   console.log(`App is connected on localhost ${PORT}`)

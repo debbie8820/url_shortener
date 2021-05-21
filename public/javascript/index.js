@@ -1,11 +1,10 @@
-function click() {
-  let copyText = document.getElementById("shortUrl");
+const button = document.querySelector('.copy')
+const copyText = document.getElementById('shortUrl');
 
-  /* Select the text field */
+button.addEventListener('click', () => {
   copyText.select();
   copyText.setSelectionRange(0, 99999); /* For mobile devices */
 
-  document.execCommand("copy");
-
+  document.execCommand('copy');
   copyText.title = 'Copied!';
-}
+})
