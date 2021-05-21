@@ -8,7 +8,7 @@ const generateId = require('./config/generateId')
 const isEmpty = require('./config/isEmpty')
 const checkOriginalUrl = require('./middleware/checkOriginalUrl')
 
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 const app = express()
 
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
@@ -53,5 +53,5 @@ app.get('/URLs/:id', (req, res) => {
 })
 
 app.listen(PORT, () => {
-  console.log(`App is connected on localhost ${PORT}`)
+  console.log(`App is connected on localhost:${PORT}`)
 })
