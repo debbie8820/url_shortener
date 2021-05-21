@@ -4,10 +4,10 @@ const bodyParser = require('body-parser')
 require('./config/mongoose')
 
 const Urls = require('./models/Urls')
+const generateId = require('./config/generateId')
 const { urlencoded } = require('express')
 
 const PORT = 3000
-
 const app = express()
 
 
@@ -21,47 +21,6 @@ app.set('view engine', 'hbs')
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
 
-
-app.get('/', (req, res) => {
-  res.render('index')
-})
-
-
-//Fisher-Yates shuffle
-function shuffle(array) {
-  for (let i = array.length - 1; i >= 0; i--) {
-    let randomIndex = Math.floor(Math.random() * (i + 1))
-    let randomElement = array[randomIndex]
-    array[randomIndex] = array[i]
-    array[i] = randomElement
-  }
-  return array
-}
-
-const characterString = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
-let characterArray = characterString.split('')
-
-
-function generateId() {
-  let shuffledArray = shuffle(characterArray)
-  let selectedId = ''
-  while (selectedId.length < 6) {
-    let randomIndex = Math.floor(Math.random() * (shuffledArray.length))
-    selectedId += shuffledArray[randomIndex]
-  }
-  const verifyId = checkId(selectedId)
-  if (!verifyId) {
-    return generateId()
-  }
-  return selectedId
-}
-
-
-//檢查短網址id是否重複
-async function checkId(id) {
-  const isRepeated = await Urls.exists({ shortenedUrlId: id })
-  return isRepeated
-}
 
 //檢查物件是否為空
 function isEmpty(obj) {
@@ -84,6 +43,12 @@ const checkOriginalUrl = () => (req, res, next) => {
       }
     })
 }
+
+
+app.get('/', (req, res) => {
+  res.render('index')
+})
+
 
 //接收使用者傳的url並轉成短網址
 app.post('/URLs/create', checkOriginalUrl(), (req, res) => {

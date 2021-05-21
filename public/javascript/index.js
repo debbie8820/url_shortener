@@ -7,6 +7,5 @@ function click() {
 
   document.execCommand("copy");
 
-  /* Alert the copied text */
   copyText.title = 'Copied!';
 }
