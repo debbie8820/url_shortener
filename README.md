@@ -2,7 +2,7 @@
 
 A Node.js website that shortens user's URL with random numbers and characters.
 
-<img alt="homepage" src="https://github.com/debbie8820/expense-tracker/blob/main/public/img/homepage.jpg">
+<img alt="homepage" src="https://github.com/debbie8820/url_shortener/blob/main/public/img/homepage.jpg">
 
 ## 主要功能
 
