@@ -24,20 +24,20 @@ app.get('/', (req, res) => {
 })
 
 //接收使用者傳的url並轉成短網址
-app.post('/URLs/create', checkOriginalUrl(), (req, res) => {
+app.post('/create', checkOriginalUrl(), (req, res) => {
   const id = generateId()
   return Urls.create({
     originalUrl: req.body.url,
     shortenedUrlId: id
   }).then((url) => {
-    const shortUrl = `${req.protocol}://${req.header('host')}/URLs/${id}`
+    const shortUrl = `${req.protocol}://${req.header('host')}/${id}`
     res.render('created', { shortUrl })
   }).catch(error => {
     console.log(error)
   })
 })
 
-app.get('/URLs/:id', (req, res) => {
+app.get('/:id', (req, res) => {
   const id = req.params.id
   return Urls.findOne({ shortenedUrlId: id })
     .lean()

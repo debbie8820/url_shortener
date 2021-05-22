@@ -8,7 +8,7 @@ const checkOriginalUrl = () => (req, res, next) => {
       if (isEmpty(url)) {
         next()
       } else {
-        const shortUrl = `${req.protocol}://${req.header('host')}/URLs/${url.shortenedUrlId}`
+        const shortUrl = `${req.protocol}://${req.header('host')}/${url.shortenedUrlId}`
         res.render('created', { shortUrl })
       }
     })
