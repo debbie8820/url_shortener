@@ -1,4 +1,5 @@
 const Urls = require('../models/Urls')
+const isEmpty = require('../config/isEmpty')
 
 //Fisher-Yates shuffle
 function shuffle(array) {
@@ -15,25 +16,33 @@ const characterString = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrs
 let characterArray = characterString.split('')
 
 
-function generateId() {
-  let shuffledArray = shuffle(characterArray)
-  let selectedId = ''
-  while (selectedId.length < 6) {
-    let randomIndex = Math.floor(Math.random() * (shuffledArray.length))
-    selectedId += shuffledArray[randomIndex]
-  }
-  const verifyId = checkId(selectedId)
-  if (!verifyId) {
-    return generateId()
-  }
-  return selectedId
+function checkId(id) {
+  const result = Urls.exists({ shortenedUrlId: id })
+  return result
 }
 
+async function generateId() {
 
-//檢查短網址id是否重複
-async function checkId(id) {
-  const isRepeated = await Urls.exists({ shortenedUrlId: id })
-  return isRepeated
+  try {
+    let shuffledArray = shuffle(characterArray)
+    let selectedId = ''
+    while (selectedId.length < 6) {
+      let randomIndex = Math.floor(Math.random() * (shuffledArray.length))
+      selectedId += shuffledArray[randomIndex]
+    }
+
+    const isRepeadted = await checkId(selectedId)
+
+    if (isRepeadted) {
+      return generateId()
+    }
+
+    return selectedId
+
+  } catch (error) {
+    console.log(error)
+  }
+
 }
 
 module.exports = generateId
