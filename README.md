@@ -41,7 +41,7 @@ A Node.js website that shortens user's URL with random numbers and characters.
 4. 執行成功後，終端機會顯示下列訊息
 
    ```
-   App is connected on localhost:${PORT}
+   App is connected on localhost:3000
    Mongodb is connected!
    ```
 
